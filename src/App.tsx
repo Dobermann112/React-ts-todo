@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import localforage from 'localforage';
 
 type Todo = {
   value: string;
@@ -72,6 +73,16 @@ export const App = () => {
       return newTodos;
     });
   };
+
+  useEffect(() => {
+    localforage
+      .getItem('todo-20200101')
+      .then((values) => setTodos(values as Todo[]));
+  }, []);
+
+  useEffect(() => {
+    localforage.setItem('todo-20200101', todos);
+  }, [todos]);
 
   return (
     <div>
