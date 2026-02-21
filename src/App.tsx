@@ -1,14 +1,6 @@
 import { useEffect, useState } from 'react';
 import localforage from 'localforage';
-
-type Todo = {
-  value: string;
-  readonly id: number;
-  checked: boolean;
-  removed: boolean;
-};
-
-type Filter = 'all' | 'checked' | 'unchecked' | 'removed';
+import { isTodos } from './lib/isTodos';
 
 export const App = () => {
   const [text, setText] = useState('');
@@ -77,7 +69,7 @@ export const App = () => {
   useEffect(() => {
     localforage
       .getItem('todo-20200101')
-      .then((values) => setTodos(values as Todo[]));
+      .then((values) => isTodos(values) && setTodos(values));
   }, []);
 
   useEffect(() => {
